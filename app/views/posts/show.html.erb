@@ -1,0 +1,46 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <%= @post.title %>
+</p>
+
+<p>
+  <%= @post.content %>
+</p>
+
+<%= link_to 'Edit', edit_post_path(@post) %> |
+<%= link_to 'Back', posts_path %>
+<!-- проверка на логин  -->
+<% if user_signed_in? %>
+
+<% if current_user.already_liked?(@post.id) %>
+<%= link_to 'Like', likes_path(post_id: @post.id), method: :post %>
+<% else %>
+<%= link_to 'Unlike', unlike_path(post_id: @post.id), method: :post %>
+<% end %>
+<% end %>
+<%= @likes.count %> 
+<%= @post.likers %>
+
+<h3>Leave a comment </h3>
+<!--форма для ввода комментариев -->
+<%= simple_form_for @comment do |f| %>
+ <!--<%= f.label :author %>
+ <%= f.text_field :author %>
+ <%= f.label :comment %>-->
+ <% if user_signed_in? %>
+ <%= current_user.name%>: 
+ <% end %>
+ <%= f.input :text %>
+ <%#= f.association :post %> <!--для выбора постов-->
+ <%= f.input :post_id, as: :hidden, input_html: {value: @post.id} %> 
+ <%#= f.input :post_id, as: :hidden, value: @post.id %> <!--передаем для comments_controller.rb-->
+
+ <%= f.submit 'Send', class: 'btn btn-primary' %>
+<% end %>
+<h3>All comments: <%= @comments.count %></h3>
+<% @comments.each do |comment| %>
+    <p><%= comment.user.try(:name) || "Undefined" %> 
+    :<%= comment.text %></p>
+<% end %>	
+

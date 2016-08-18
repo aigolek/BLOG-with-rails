@@ -1,0 +1,5 @@
+<%= simple_form_for @post do |f| %>
+  <%= f.input :title, label: "Post name" %>
+  <%= f.input :content %>
+  <%= f.submit 'Save' , class: 'btn btn-primary'%>
+<% end %>
