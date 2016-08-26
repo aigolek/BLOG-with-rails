@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-
+gem 'cancancan', '~> 1.15'
 gem 'simple_form', '~> 3.2', '>= 3.2.1'
 
 gem 'devise', '~> 4.2'
